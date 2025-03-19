@@ -2,16 +2,16 @@ import { Router, type Request, type Response } from 'express';
 const router = Router();
 
 import HistoryService from '../../service/historyService.js';
-import WeatherService from '../../service/weatherService.js';
+  import { WeatherService } from '../../service/weatherService.js';
 
 // TODO: POST Request with city name to retrieve weather data
-router.post('/', (req: Request, res: Response) => {
+router.post('/', (req: Request, _res: Response) => {
   // TODO: GET weather data from city name
   console.log(req.body, "POSt")
   try {
     const city = req.body.cityName;
-    WeatherService.getWeatherForCity(city).then(data => {
-      HistoryService.addCity(city).then(data: any => {
+    WeatherService.getWeatherForCity(city),((data: ((value: void) => void | PromiseLike<void>) | null | undefined) => {
+      HistoryService.addCity(city).then(data, _any => {
         console.log(data)
       })
     })
@@ -22,7 +22,7 @@ router.post('/', (req: Request, res: Response) => {
 });
 
 // TODO: GET search history
-router.get('/history', async (req: Request, res: Response) => {
+router.get('/history', async (_req: Request, res: Response) => {
   HistoryService.getCities()
     .then(data => {
       return res.json(data)
@@ -33,7 +33,7 @@ router.get('/history', async (req: Request, res: Response) => {
 // * BONUS TODO: DELETE city from search history
 router.delete('/history/:id', async (req: Request, res: Response) => { 
   HistoryService.removeCity(req.params.id)
-  .then(resp => {
+  .then(_resp => {
     res.json({"message":"City deleted"})
   })
 });
